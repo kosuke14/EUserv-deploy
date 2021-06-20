@@ -17,15 +17,13 @@
 
 7：避开原VPS的IP需要谷歌验证码问题！
 
-8：替代HE tunnelbroker IPV4隧道代理方案，网络效率更高！
-
-9：替代NAT64/DNS64方案，网络效率更高！
+8：替代NAT64/DNS64方案，网络效率更高！
 
 #### WARP原理与及搭建探讨：https://youtu.be/78dZgYFS-Qo
 
 #### 抛弃DNS64、自定义域名、IP分流教程（推荐）：https://youtu.be/fY9HDLJ7mnM
 
-#### 联合Oracle甲骨文https://github.com/YG-tsj/Oracle-warp #双栈Warp接管IPV4与IPV6网络：https://youtu.be/o7e_ikV-m-g
+#### 联合Oracle甲骨文https://github.com/YG-tsj/CFWarp-Pro #双栈Warp接管IPV4与IPV6网络：https://youtu.be/o7e_ikV-m-g
 -------------------------------------------------------------------------------------------------------
 
 ### 一：恢复EUserv官方DNS64（重装系统者，可直接跳到第二步脚本安装）
@@ -50,12 +48,16 @@ wget -qO- https://cdn.jsdelivr.net/gh/YG-tsj/EUserv-warp/warp64.sh|bash
 
 #### 注意：域名解析所填写的IP必须是VPS本地IP，与WARP分配的IP没关系！
 
-#### 推荐使用Xray脚本项目（mack-a）：https://github.com/mack-a/v2ray-agent
+#### 推荐使用Xray脚本项目（mack-a）：https://github.com/mack-a/v2ray-agent  注意：大家自行测试，德鸡在有些地区或者运营商不支持TCP，只能选择CDN（WS协议与gRPC协议），IP地址改为自定义优选IP，例：icook.tw
 
 #### 提示：配置文件wgcf.conf和注册文件wgcf-account.toml都已备份在/etc/wireguard目录下！
 --------------------------------------------------------------------------------------------------------------
 
 #### 查看WARP当前统计状态：```wg```
+
+#### 查看当前IPV4 IP：```curl -4 ip.p3terx.com```
+
+#### 查看当前IPV6 IP：```curl -6 ip.p3terx.com```
 
 ------------------------------------------------------------------------------------------------------------- 
 #### IPV6 VPS专用分流配置文件(以下默认全局IPV4优先，IP、域名自定义，详情见视频教程)
@@ -63,15 +65,15 @@ wget -qO- https://cdn.jsdelivr.net/gh/YG-tsj/EUserv-warp/warp64.sh|bash
 { 
 "outbounds": [
     {
-      "tag":"IP4-out",
+      "tag":"IP6-out",
       "protocol": "freedom",
       "settings": {}
     },
     {
-      "tag":"IP6-out",
+      "tag":"IP4-out",
       "protocol": "freedom",
       "settings": {
-        "domainStrategy": "UseIPv6" 
+        "domainStrategy": "UseIPv4" 
       }
     }
   ],
