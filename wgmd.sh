@@ -279,20 +279,11 @@ function phlinhng(){
 curl -fsSL https://raw.staticdn.net/phlinhng/v2ray-tcp-tls-web/main/src/xwall.sh -o ~/xwall.sh && bash ~/xwall.sh
 }
 
-function Netflix(){
-wget -O nf https://cdn.jsdelivr.net/gh/sjlleo/netflix-verify/CDNRelease/nf_2.60_linux_amd64 && chmod +x nf && clear && ./nf -method full
+function eure(){
+wget -N --no-check-certificate https://cdn.jsdelivr.net/gh/YG-tsj/EUservRenew/EuRe16.sh && chmod +x EuRe16.sh && ./EuRe16.sh
 }
 
 function reboot(){
-reboot
-}
-
-function dns(){
-echo 'DNS=8.8.8.8 2001:4860:4860::8888'>> /etc/systemd/resolved.conf
-systemctl restart systemd-resolved
-systemctl enable systemd-resolved
-mv /etc/resolv.conf  /etc/resolv.conf.bak
-ln -s /run/systemd/resolve/resolv.conf /etc/
 reboot
 }
 
@@ -318,7 +309,7 @@ function start_menu(){
     
     white " ==================一、VPS相关调整选择（更新中）==========================================" 
     
-    green " 1. 检测奈飞Netflix是否解锁 "
+    green " 1. EUserv续期脚本菜单 "
     
     white " ==================二、“内核集成模式”WARP功能选择（更新中）======================================"
     
@@ -358,7 +349,7 @@ function start_menu(){
     read -p "请输入数字:" menuNumberInput
     case "$menuNumberInput" in
 	1 )
-           Netflix
+           eure
 	;;    
         2 )
            w64
