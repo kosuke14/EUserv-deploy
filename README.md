@@ -1,4 +1,4 @@
-##  2021.7.30 整合脚本更新！ 
+##  2021.8.13更新，已集成德鸡EUserv自动续期脚本，教程下期视频分享
 
 ### 给EUserv IPV6添加WARP，白嫖WARP高速通道！针对OpenVZ、LXC架构的IPV6 only VPS！
 
