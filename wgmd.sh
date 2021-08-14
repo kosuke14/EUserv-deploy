@@ -280,7 +280,7 @@ curl -fsSL https://raw.staticdn.net/phlinhng/v2ray-tcp-tls-web/main/src/xwall.sh
 }
 
 function eure(){
-wget -N --no-check-certificate https://cdn.jsdelivr.net/gh/YG-tsj/EUservRenew/EuRe16.sh && chmod +x EuRe16.sh && ./EuRe16.sh
+wget -N --no-check-certificate https://cdn.jsdelivr.net/gh/YG-tsj/EUservRenew/EuRe.sh && chmod +x EuRe.sh && ./EuRe.sh
 }
 
 function reboot(){
