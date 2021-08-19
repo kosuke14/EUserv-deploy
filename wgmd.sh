@@ -311,7 +311,7 @@ function start_menu(){
     
     white " ==================一、VPS相关调整选择（更新中）==========================================" 
     
-    green " 1. EUserv续期脚本菜单 "
+    
     
     white " ==================二、“wg模式”WARP功能选择（更新中）======================================"
     
@@ -350,9 +350,6 @@ function start_menu(){
     echo
     read -p "请输入数字:" menuNumberInput
     case "$menuNumberInput" in
-	1 )
-           eure
-	;;    
         2 )
            w64
 	;;
