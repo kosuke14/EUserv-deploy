@@ -153,7 +153,7 @@ function w64(){
 	then
 		apt install sudo -y && apt install curl sudo lsb-release iptables -y
                 echo "deb http://deb.debian.org/debian $(lsb_release -sc)-backports main" | sudo tee /etc/apt/sources.list.d/backports.list
-                apt update
+                apt update -y
                 apt -y --no-install-recommends install openresolv dnsutils wireguard-tools
 	elif [ $release = "Ubuntu" ]
 	then
@@ -190,7 +190,7 @@ function w646(){
 	then
 		apt install sudo -y && apt install curl sudo lsb-release iptables -y
                 echo "deb http://deb.debian.org/debian $(lsb_release -sc)-backports main" | sudo tee /etc/apt/sources.list.d/backports.list
-                apt update
+                apt update -y
                 apt -y --no-install-recommends install openresolv dnsutils wireguard-tools
 	elif [ $release = "Ubuntu" ]
 	then
@@ -228,7 +228,7 @@ function w66(){
 	then
 		apt install sudo -y && apt install curl sudo lsb-release iptables -y
                 echo "deb http://deb.debian.org/debian $(lsb_release -sc)-backports main" | sudo tee /etc/apt/sources.list.d/backports.list
-                apt update
+                apt update -y
                 apt -y --no-install-recommends install openresolv dnsutils wireguard-tools
 	elif [ $release = "Ubuntu" ]
 	then
