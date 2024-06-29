@@ -23,7 +23,7 @@
 
 ### Only supports Debian 10/Ubuntu 20.04 system one-click comprehensive script
 ```
-wget -N --no-check-certificate https://cdn.jsdelivr.net/gh/YG-tsj/EUserv-warp/wgmd.sh && chmod +x wgmd.sh && ./wgmd.sh
+wget -N --no-check-certificate https://cdn.jsdelivr.net/gh/kosuke14/EUserv-deploy/wgmd.sh && chmod +x wgmd.sh && ./wgmd.sh
 ```
 Enter script shortcut ```bash wgmd.sh```
 
