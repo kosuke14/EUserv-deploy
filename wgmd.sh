@@ -44,22 +44,22 @@ rred(){
 
 if [ $release = "Centos" ]
 	then
-            red " 不支持Centos系统，请更换Debian或Ubuntu "
+            red "Centos is unsupported, use Debian or Ubuntu."
       exit 1
 	   fi
  
 	if ! type curl >/dev/null 2>&1; then
-	   yellow "curl 未安装，安装中 "
+	   yellow "curl is not installed, installing..."
            apt update && apt install curl -y 
            else
-           green "curl 已安装，继续 "
+           green "curl is installed, continuing."
 fi
 
         if ! type wget >/dev/null 2>&1; then
-           yellow "wget 未安装 安装中 "
+           yellow "wget is not installed, installing..."
            apt update && apt install wget -y 
            else
-           green "wget 已安装，继续 "
+           green "wget is installed, continuing."
 fi  
 	   
 bit=`uname -m`
@@ -72,22 +72,22 @@ op=`hostnamectl | grep -i Operating | awk -F ':' '{print $2}'`
 vi=`hostnamectl | grep -i Virtualization | awk -F ':' '{print $2}'`
 
 
-yellow " VPS相关信息如下："
+yellow " Your VPS:"
     white "------------------------------------------"
-    blue " 操作系统名称 -$op "
-    blue " 系统内核版本 - $version " 
-    blue " CPU架构名称  - $bit "
-    blue " 虚拟架构类型 -$vi "
+    blue " OS Name -$op "
+    blue " OS Version - $version " 
+    blue " CPU Architecture  - $bit "
+    blue " VM Architecture Type -$vi "
     white " -----------------------------------------------" 
 sleep 1s
 
 warpwg=$(systemctl is-active wg-quick@wgcf)
 case ${warpwg} in
 active)
-     WireGuardStatus=$(green "运行中")
+     WireGuardStatus=$(green "Running")
      ;;
 *)
-     WireGuardStatus=$(red "未运行")
+     WireGuardStatus=$(red "Not Running")
 esac
 
 
@@ -98,13 +98,13 @@ if [[ ${v44} == "1" ]]; then
  WARPIPv4Status=$(curl -s4 https://www.cloudflare.com/cdn-cgi/trace | grep warp | cut -d= -f2) 
  case ${WARPIPv4Status} in 
  on) 
- WARPIPv4Status=$(green "WARP已开启,当前IPV4地址：$v4 ") 
+ WARPIPv4Status=$(green "WARP is on, current IPv4 is: $v4 ") 
  ;; 
  off) 
- WARPIPv4Status=$(yellow "WARP未开启，当前IPV4地址：$v4 ") 
+ WARPIPv4Status=$(yellow "WARP is off, current IPv4 is：$v4 ") 
  esac 
 else
-WARPIPv4Status=$(red "不存在IPV4地址 ")
+WARPIPv4Status=$(red "There is no IPv4 address.")
 
  fi 
 
@@ -115,33 +115,33 @@ if [[ ${v66} == "1" ]]; then
  WARPIPv6Status=$(curl -s6 https://www.cloudflare.com/cdn-cgi/trace | grep warp | cut -d= -f2) 
  case ${WARPIPv6Status} in 
  on) 
- WARPIPv6Status=$(green "WARP已开启,当前IPV6地址：$v6 ") 
+ WARPIPv6Status=$(green "WARP is on, current IPv6 is: $v6 ") 
  ;; 
  off) 
- WARPIPv6Status=$(yellow "WARP未开启，当前IPV6地址：$v6 ") 
+ WARPIPv6Status=$(yellow "WARP is off, current IPv6 is: $v6 ") 
  esac 
 else
-WARPIPv6Status=$(red "不存在IPV6地址 ")
+WARPIPv6Status=$(red "There is no IPv6 address.")
 
  fi 
  
 Print_ALL_Status_menu() {
 blue "-----------------------"
-blue "WGCF 运行状态\t: ${WireGuardStatus}"
-blue "IPv4 网络状态\t: ${WARPIPv4Status}"
-blue "IPv6 网络状态\t: ${WARPIPv6Status}"
+blue "WGCF Running status\t: ${WireGuardStatus}"
+blue "IPv4 Network status\t: ${WARPIPv4Status}"
+blue "IPv6 Network status\t: ${WARPIPv6Status}"
 blue "-----------------------"
 }
 
 if [[ ${vi} == " lxc" ]]; then
-green " ---VPS扫描中---> "
+green " ---Scanning VPS---> "
 
 elif [[ ${vi} == " OpenVZ" ]]; then
-green " ---VPS扫描中---> "
+green " ---Scanning VPS---> "
 
 else
-yellow " 虚拟架构类型 - $vi "
-yellow " 对此vps架构不支持，脚本安装自动退出，赶紧提醒甬哥加上你的架构吧！"
+yellow " VM Architecture Type - $vi "
+yellow " The VPS architecture is not supported for this, and the script installation will automatically exit. Hurry up and remind your friend to add your architecture!"
 exit 1
 fi
 
@@ -160,8 +160,8 @@ function w64(){
 		apt-get update -y &&  apt install sudo -y
 		apt -y --no-install-recommends install openresolv dnsutils wireguard-tools
 	fi
-wget -N -6 https://cdn.jsdelivr.net/gh/YG-tsj/EUserv-warp/wgcf -O /usr/local/bin/wgcf
-wget -N -6 https://cdn.jsdelivr.net/gh/YG-tsj/EUserv-warp/wireguard-go -O /usr/bin/wireguard-go
+wget -N -6 https://cdn.jsdelivr.net/gh/kosuke14/EUserv-deploy/wgcf -O /usr/local/bin/wgcf
+wget -N -6 https://cdn.jsdelivr.net/gh/kosuke14/EUserv-deploy/wireguard-go -O /usr/bin/wireguard-go
 chmod +x /usr/local/bin/wgcf
 chmod +x /usr/bin/wireguard-go
 echo | wgcf register
@@ -180,8 +180,8 @@ systemctl enable wg-quick@wgcf
 systemctl start wg-quick@wgcf
 rm -f wgcf* wireguard-go*
 grep -qE '^[ ]*precedence[ ]*::ffff:0:0/96[ ]*100' /etc/gai.conf || echo 'precedence ::ffff:0:0/96  100' | sudo tee -a /etc/gai.conf
-yellow " 检测是否成功启动Warp！\n 显示IPV4地址：$(wget -qO- -4 ip.gs) "
-green " 如上方显示IPV4地址：8.…………，则说明成功啦！\n 如上方无IP显示，则说明失败喽！！"
+yellow " WARP has been started successfully detected！\n IPv4 address：$(wget -qO- -4 ip.gs) "
+green " As shown above, the IPV4 address:  ............, that shows success! \n If there is no IP display above, it means failure!!"
 }
 
 function w646(){
@@ -197,8 +197,8 @@ function w646(){
 		apt-get update -y &&  apt install sudo -y
 		apt -y --no-install-recommends install openresolv dnsutils wireguard-tools
 	fi
-wget -N -6 https://cdn.jsdelivr.net/gh/YG-tsj/EUserv-warp/wgcf -O /usr/local/bin/wgcf
-wget -N -6 https://cdn.jsdelivr.net/gh/YG-tsj/EUserv-warp/wireguard-go -O /usr/bin/wireguard-go
+wget -N -6 https://cdn.jsdelivr.net/gh/kosuke14/EUserv-deploy/wgcf -O /usr/local/bin/wgcf
+wget -N -6 https://cdn.jsdelivr.net/gh/kosuke14/EUserv-deploy/wireguard-go -O /usr/bin/wireguard-go
 chmod +x /usr/local/bin/wgcf
 chmod +x /usr/bin/wireguard-go
 echo | wgcf register
@@ -218,8 +218,8 @@ systemctl enable wg-quick@wgcf
 systemctl start wg-quick@wgcf
 rm -f wgcf* wireguard-go*
 grep -qE '^[ ]*precedence[ ]*::ffff:0:0/96[ ]*100' /etc/gai.conf || echo 'precedence ::ffff:0:0/96  100' | sudo tee -a /etc/gai.conf
-yellow " 检测是否成功启动（IPV4+IPV6）双栈Warp！\n 显示IPV4地址：$(wget -qO- -4 ip.gs) 显示IPV6地址：$(wget -qO- -6 ip.gs) "
-green " 如上方显示IPV4地址：8.…………，IPV6地址：2a09:…………，则说明成功啦！\n 如上方IPV4无IP显示，IPV6显示本地IP，则说明失败喽！"
+yellow " Detect whether the successful startup (IPV4+IPV6) dual-stack Warp! \n IPV4 address: $(wget -qO- -4 ip.gs) IPv6 one: $(wget -qO- -6 ip.gs) "
+green " As shown above, the IPV4 address: 8. ............, IPV6 address: 2a09:............, it shows that it is successful! \n If the IPV4 above has no IP display and IPV6 displays the local IP, it means that it has failed!"
 }
 
 function w66(){
@@ -257,8 +257,8 @@ systemctl enable wg-quick@wgcf
 systemctl start wg-quick@wgcf
 rm -f wgcf* wireguard-go*
 grep -qE '^[ ]*label[ ]*2002::/16[ ]*2' /etc/gai.conf || echo 'label 2002::/16   2' | sudo tee -a /etc/gai.conf
-yellow " 检测是否成功启动Warp！\n 显示IPV6地址：$(wget -qO- -6 ip.gs) "
-green " 如上方显示IPV6地址：2a09:…………，则说明成功！\n 如上方IPV6显示本地IP，则说明失败喽！ "
+yellow " Detected whether WARP has been successfully started！\n 显示IPV6地址：$(wget -qO- -6 ip.gs) "
+green " If the IPV6 address is shown above: 2a09:............, it indicates success! \n If the local IP is displayed on IPV6 above, it means that it has failed! "
 }
 
 
@@ -294,61 +294,61 @@ systemctl status wg-quick@wgcf
 }
 
 function up4(){
-wget -N --no-check-certificate https://raw.githubusercontent.com/YG-tsj/EUserv-warp/main/wgmd.sh && chmod +x wgmd.sh && ./wgmd.sh
+wget -N --no-check-certificate https://raw.githubusercontent.com/kosuke14/EUserv-deploy/main/wgmd.sh && chmod +x wgmd.sh && ./wgmd.sh
 }
 
 function up6(){
 echo -e nameserver 2a00:1098:2c::1 > /etc/resolv.conf
-wget -6 -N --no-check-certificate https://raw.githubusercontent.com/YG-tsj/EUserv-warp/main/wgmd.sh && chmod +x wgmd.sh && ./wgmd.sh
+wget -6 -N --no-check-certificate https://raw.githubusercontent.com/kosuke14/EUserv-deploy/main/wgmd.sh && chmod +x wgmd.sh && ./wgmd.sh
 }
 
 #主菜单
 function start_menu(){
     clear
-    yellow " 详细说明 https://github.com/YG-tsj/EUserv-warp  YouTube频道：甬哥侃侃侃" 
+    yellow " Details: https://github.com/kosuke14/EUserv-deploy" 
     
-    red " 切记：进入脚本快捷方式 bash wgmd.sh "
+    red " Remember that to run this script again, run: bash wgmd.sh "
     
-    white " ==================一、VPS相关调整选择（更新中）==========================================" 
+    white " ==================I. VPS-related adjustment selection (updating)==========================================" 
     
     
     
-    white " ==================二、“wg模式”WARP功能选择（更新中）======================================"
+    white " ==================II. "wg mode" WARP function selection (updating)======================================"
     
-    yellow " ----VPS原生IP数------------------------------------添加WARP虚拟IP的位置--------------"
+    yellow " ----Number of native VPS IPs------------------------------------Add the location of WARP virtual IP--------------"
     
-    green " 2. 纯IPV6的VPS。                                  添加WARP虚拟IPV4               "
+    green " 2. IPv6-only VPS                                  Add WARP Virtual IPv4               "
     
-    green " 3. 纯IPV6的VPS。                                  添加WARP虚拟IPV4+虚拟IPV6       "
+    green " 3. IPv6-only VPS                                  Add WARP Virtual IPV4 + Virtual IPV6       "
     
-    green " 4. 纯IPV6的VPS。                                  添加WARP虚拟IPV6               "
+    green " 4. IPv6-only VPS                                  Add WARP Virtual IPv6               "
     
     white " ------------------------------------------------------------------------------------------------"
     
-    green " 5. 永久关闭WARP功能 "
+    green " 5. Permanently turn off the WARP function "
     
-    green " 6. 自动开启WARP功能 "
+    green " 6. Automatically turn on the WARP function "
     
-    green " 7. 有IPV4：更新脚本 "
+    green " 7. IPV4: Update the script "
     
-    green " 8. 无IPV4：更新脚本 "
+    green " 8. No IPV4: Update the script "
     
-    white " ==================三、代理协议脚本选择（更新中）==========================================="
+    white " ==================III. Agent protocol script selection (updating)==========================================="
     
-    green " 9. 使用mack-a脚本（支持Xray, V2ray） "
+    green " 9. Use the mack-a script (supports Xray, V2ray) "
     
-    green " 10. 使用phlinhng脚本（支持Xray, Trojan-go, SS+v2ray-plugin） "
+    green " 10. Use phlinhng script (supports Xray, Trojan-go, SS+v2ray-plugin) "
     
     white " ============================================================================================="
     
-    green " 11. 重启VPS实例，请重新连接SSH "
+    green " 11. Restart the VPS instance and reconnect to SSH. "
     
     white " ===============================================================================================" 
     
-    green " 0. 退出脚本 "
+    green " 0. Quit "
     Print_ALL_Status_menu
     echo
-    read -p "请输入数字:" menuNumberInput
+    read -p "Enter the number: " menuNumberInput
     case "$menuNumberInput" in
         2 )
            w64
@@ -391,6 +391,6 @@ start_menu "first"
 
 
 else
- yellow "此CPU架构不是X86,也不是ARM！奥特曼架构？"
+ yellow "This CPU architecture is not X86 or ARM! Ultraman architecture?"
  exit 1
 fi
